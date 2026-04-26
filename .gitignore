@@ -1,0 +1,6 @@
+build/
+*.metallib
+*.air
+.DS_Store
+.vscode/
+.idea/

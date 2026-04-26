@@ -57,8 +57,13 @@ constexpr std::array<uint32_t, 25> kKeccakRot = {
     18,  2, 61, 56, 14,
 };
 
+// rotl64 is called with n=0 in the rho-pi step (kKeccakRot[0] == 0). A
+// naive `x >> (64 - n)` is undefined behavior at n=0 (shift width equals
+// type width), and clang -O2 happily exploits the UB and produces garbage.
+// Mask the shift count to avoid UB; the n==0 case becomes `x | x == x`,
+// which is the intended identity.
 inline uint64_t rotl64(uint64_t x, uint32_t n) {
-    return (x << n) | (x >> (64u - n));
+    return (x << (n & 63u)) | (x >> ((64u - n) & 63u));
 }
 
 void keccak_f1600(uint64_t* s) {
