@@ -1,0 +1,2 @@
+/usr/bin/ar qc liblux_pvm_core.a CMakeFiles/lux_pvm_core.dir/src/pvm_cpu_reference.cpp.o
+/usr/bin/ranlib liblux_pvm_core.a
